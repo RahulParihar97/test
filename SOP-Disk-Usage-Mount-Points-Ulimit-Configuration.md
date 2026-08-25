@@ -1,9 +1,9 @@
 # Standard Operating Procedure (SOP)
 ## Disk Usage, Mount Point Check & Ulimit Configuration
 
-| Author | Created on | Version | Last updated by | Last edited on |
-|--------|------------|---------|------------------|-----------------|
-| `<Name>` | `<DD-MM-YY>` | Version 1 | `<Name>` | `<DD-MM-YY>` |
+|     Author      | Created on | Version   | Last updated by  | Last edited on |
+|-----------------|------------|-----------|------------------|----------------|
+| `Rahul Parihar` | `24-08-26` | Version 1 | `Rahul Parihar`  | `25-08-26`     |
 
 ## Table of Contents
 
@@ -413,7 +413,7 @@ If the configured ulimit values cause unexpected application or system behaviour
 
 | Name | Email address |
 |---|---|
-| `<Name>` | `<email@company.com>` |
+| `Rahul Parihar` | `rahul.parihar.snaatak@mygurukulam.co` |
 
 ## 12. References
 
@@ -423,5 +423,3 @@ If the configured ulimit values cause unexpected application or system behaviour
 | [du man page](https://man7.org/linux/man-pages/man1/du.1.html) | `du` command reference |
 | [limits.conf man page](https://man7.org/linux/man-pages/man5/limits.conf.5.html) | `limits.conf` configuration reference |
 | [systemd.exec man page](https://www.freedesktop.org/software/systemd/man/systemd.exec.html) | systemd resource-limit directives (`LimitNOFILE`, etc.) |
-| [Application Template](https://github.com/OT-MICROSERVICES/documentation-template/wiki/Application-Template) | Documentation format/index followed for this SOP |
-| [Software Template](https://github.com/OT-MICROSERVICES/documentation-template/wiki/Software-Template) | Documentation format/index followed for this SOP |
