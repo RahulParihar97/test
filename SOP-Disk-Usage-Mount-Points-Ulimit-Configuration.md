@@ -14,17 +14,16 @@
   - [3.2 System Requirements](#32-system-requirements)
   - [3.3 Tools Used](#33-tools-used)
 - [4. Roles & Responsibilities](#4-roles--responsibilities)
-- [5. Screenshot Attachment Guidelines](#5-screenshot-attachment-guidelines)
-- [6. Procedure](#6-procedure)
-  - [6.1 Check Disk Usage](#61-check-disk-usage)
-  - [6.2 Check Mount Points](#62-check-mount-points)
-  - [6.3 Configure ulimit Settings for Users and Processes](#63-configure-ulimit-settings-for-users-and-processes)
-- [7. Verification / Validation](#7-verification--validation)
-- [8. Rollback Procedure](#8-rollback-procedure)
-- [9. Troubleshooting](#9-troubleshooting)
-- [10. FAQs](#10-faqs)
-- [11. Contact Information](#11-contact-information)
-- [12. References](#12-references)
+- [5. Procedure](#6-procedure)
+  - [5.1 Check Disk Usage](#61-check-disk-usage)
+  - [5.2 Check Mount Points](#62-check-mount-points)
+  - [5.3 Configure ulimit Settings for Users and Processes](#63-configure-ulimit-settings-for-users-and-processes)
+- [6. Verification / Validation](#7-verification--validation)
+- [7. Rollback Procedure](#8-rollback-procedure)
+- [8. Troubleshooting](#9-troubleshooting)
+- [9. FAQs](#10-faqs)
+- [10. Contact Information](#11-contact-information)
+- [11. References](#12-references)
 
 ---
 
@@ -76,29 +75,9 @@ This procedure applies to all Linux (Ubuntu/CentOS/RHEL) servers — physical, v
 | Application Owner | Confirms the resource-limit values required for the application/process |
 | Reviewer/Approver | Reviews the completed SOP checklist and evidence before sign-off |
 
-## 5. Screenshot Attachment Guidelines
+## 5. Procedure
 
-Every command in Section 6 has a dedicated placeholder immediately under it. Screenshots must be attached **at that exact placeholder** — not bundled at the end of the document — so each image stays next to the command/output it evidences.
-
-| Guideline | Details |
-|---|---|
-| Storage location | `screenshots/` folder alongside this README (e.g. `docs/screenshots/`) |
-| Reference syntax | `![Step 6.1.1 - df -hT](./screenshots/6.1.1-df-hT.png)` at the matching placeholder |
-| Capture scope | Full terminal window, including the command typed and its complete output |
-| File naming convention | `<step-number>-<short-description>.png` (e.g. `6.1.1-df-hT.png`, `6.3.4-limits-conf.png`) |
-| Repeated steps | One screenshot per instance, with a descriptive suffix (e.g. `6.3.7-proc-limits-nginx.png`) |
-| Data hygiene | No sensitive data (IPs, credentials, customer data) visible before committing to the repo |
-
-> 📷 Placeholder format used throughout this document:
-> ```
-> [SCREENSHOT: <what to capture>]
-> ![<alt text>](./screenshots/<file-name>.png)
-> ```
-> Replace the placeholder line with the actual image link once the screenshot is captured.
-
-## 6. Procedure
-
-### 6.1 Check Disk Usage
+### 5.1 Check Disk Usage
 
 **Quick reference**
 
@@ -108,7 +87,7 @@ Every command in Section 6 has a dedicated placeholder immediately under it. Scr
 | 6.1.2 | `du -sh /* \| sort -rh \| head -n 15` | Top 15 largest top-level directories | `6.1.2-du-top15.png` |
 | 6.1.3 | `du -sh /path/* \| sort -rh \| head -n 10` | Drill down into a high-usage directory | `6.1.3-du-drilldown.png` |
 
-**Step 6.1.1: Check overall disk space usage of all mounted filesystems**
+**Step 5.1.1: Check overall disk space usage of all mounted filesystems**
 
 ```bash
 df -hT
@@ -121,7 +100,7 @@ The `-h` flag prints sizes in human-readable form (K/M/G) and `-T` additionally 
 ![df -hT output](./screenshots/6.1.1-df-hT.png)
 ```
 
-**Step 6.1.2: Identify directories/files consuming the most disk space**
+**Step 5.1.2: Identify directories/files consuming the most disk space**
 
 ```bash
 du -sh /* 2>/dev/null | sort -rh | head -n 15
@@ -134,7 +113,7 @@ This lists the top 15 largest top-level directories, sorted in descending order 
 ![du top directories](./screenshots/6.1.2-du-top15.png)
 ```
 
-**Step 6.1.3: Drill down into a specific directory (as required)**
+**Step 5.1.3: Drill down into a specific directory (as required)**
 
 ```bash
 du -sh /path/to/directory/* | sort -rh | head -n 10
@@ -147,7 +126,7 @@ Replace `/path/to/directory` with the directory identified as high-usage in the 
 ![du drill-down output](./screenshots/6.1.3-du-drilldown.png)
 ```
 
-### 6.2 Check Mount Points
+### 5.2 Check Mount Points
 
 **Quick reference**
 
@@ -158,7 +137,7 @@ Replace `/path/to/directory` with the directory identified as high-usage in the 
 | 6.2.3 | `lsblk -f` | Cross-check block devices and mount points | `6.2.3-lsblk.png` |
 | 6.2.4 | `cat /etc/fstab` | Verify persistent mount configuration | `6.2.4-fstab.png` |
 
-**Step 6.2.1: List all currently mounted filesystems**
+**Step 5.2.1: List all currently mounted filesystems**
 
 ```bash
 mount | column -t
@@ -169,7 +148,7 @@ mount | column -t
 ![mount output](./screenshots/6.2.1-mount.png)
 ```
 
-**Step 6.2.2: View mount points in a tree/summary format**
+**Step 5.2.2: View mount points in a tree/summary format**
 
 ```bash
 findmnt
@@ -182,7 +161,7 @@ findmnt
 ![findmnt output](./screenshots/6.2.2-findmnt.png)
 ```
 
-**Step 6.2.3: Cross-check block devices and their mount points**
+**Step 5.2.3: Cross-check block devices and their mount points**
 
 ```bash
 lsblk -f
@@ -195,7 +174,7 @@ Confirms which physical/virtual disks and partitions map to which mount points a
 ![lsblk -f output](./screenshots/6.2.3-lsblk.png)
 ```
 
-**Step 6.2.4: Verify persistent mount configuration**
+**Step 5.2.4: Verify persistent mount configuration**
 
 ```bash
 cat /etc/fstab
@@ -208,7 +187,7 @@ Confirm that every mount point required to survive a reboot is correctly listed 
 ![fstab contents](./screenshots/6.2.4-fstab.png)
 ```
 
-### 6.3 Configure ulimit Settings for Users and Processes
+### 5.3 Configure ulimit Settings for Users and Processes
 
 **Quick reference**
 
@@ -224,7 +203,7 @@ Confirm that every mount point required to survive a reboot is correctly listed 
 | 6.3.8 | `systemctl edit <service-name>` | Configure ulimit for a systemd-managed service | `6.3.8-systemd-override.png` |
 | 6.3.9 | `systemctl show <service-name> \| grep Limit` | Verify ulimit configuration for the service | `6.3.9-systemd-verify.png` |
 
-**Step 6.3.1: Check current ulimit values for the logged-in shell/user**
+**Step 5.3.1: Check current ulimit values for the logged-in shell/user**
 
 ```bash
 ulimit -a
@@ -237,7 +216,7 @@ Displays all current soft limits for the active shell session, e.g., open files,
 ![ulimit -a output](./screenshots/6.3.1-ulimit-a.png)
 ```
 
-**Step 6.3.2: Check the hard limit for a specific resource (e.g., open files)**
+**Step 5.3.2: Check the hard limit for a specific resource (e.g., open files)**
 
 ```bash
 ulimit -Sn      # current soft limit for open files
@@ -249,7 +228,7 @@ ulimit -Hn      # current hard limit for open files
 ![ulimit soft and hard limits](./screenshots/6.3.2-ulimit-Sn-Hn.png)
 ```
 
-**Step 6.3.3: Set a temporary (session-level) ulimit**
+**Step 5.3.3: Set a temporary (session-level) ulimit**
 
 ```bash
 ulimit -n 65536
@@ -262,7 +241,7 @@ This changes the open-files limit only for the current shell session; it does no
 ![temporary ulimit applied](./screenshots/6.3.3-ulimit-temp.png)
 ```
 
-**Step 6.3.4: Configure a persistent ulimit for a specific user or group**
+**Step 5.3.4: Configure a persistent ulimit for a specific user or group**
 
 Edit the limits configuration file:
 
@@ -292,7 +271,7 @@ appuser        hard     nproc    4096
 ![limits.conf entries](./screenshots/6.3.4-limits-conf.png)
 ```
 
-**Step 6.3.5: Ensure the PAM limits module is enabled (required for limits.conf to take effect)**
+**Step 5.3.5: Ensure the PAM limits module is enabled (required for limits.conf to take effect)**
 
 ```bash
 cat /etc/pam.d/common-session | grep pam_limits
@@ -305,7 +284,7 @@ Confirm the line `session required pam_limits.so` is present. If missing, add it
 ![pam_limits.so check](./screenshots/6.3.5-pam-limits.png)
 ```
 
-**Step 6.3.6: Re-login and verify the persistent ulimit took effect**
+**Step 5.3.6: Re-login and verify the persistent ulimit took effect**
 
 ```bash
 exit
@@ -318,7 +297,7 @@ ulimit -a
 ![ulimit -a after relogin](./screenshots/6.3.6-ulimit-a-relogin.png)
 ```
 
-**Step 6.3.7: Check effective limits of a running process**
+**Step 5.3.7: Check effective limits of a running process**
 
 ```bash
 ps -ef | grep <process-name>
@@ -332,7 +311,7 @@ Replace `<pid>` with the process ID obtained from the `ps` command. This shows t
 ![process limits](./screenshots/6.3.7-proc-limits.png)
 ```
 
-**Step 6.3.8: Configure ulimit for a systemd-managed service (if applicable)**
+**Step 5.3.8: Configure ulimit for a systemd-managed service (if applicable)**
 
 For processes started by systemd, `/etc/security/limits.conf` is bypassed. Edit the service unit instead:
 
@@ -354,7 +333,7 @@ sudo systemctl restart <service-name>
 ![systemd override and restart](./screenshots/6.3.8-systemd-override.png)
 ```
 
-**Step 6.3.9: Verify the ulimit configuration for the systemd service**
+**Step 5.3.9: Verify the ulimit configuration for the systemd service**
 
 ```bash
 systemctl show <service-name> | grep Limit
@@ -365,7 +344,7 @@ systemctl show <service-name> | grep Limit
 ![systemd limit verification](./screenshots/6.3.9-systemd-verify.png)
 ```
 
-## 7. Verification / Validation
+## 6. Verification / Validation
 
 | # | Check Item | Expected Result | Status |
 |---|---|---|---|
@@ -375,7 +354,7 @@ systemctl show <service-name> | grep Limit
 | 4 | `/proc/<pid>/limits` or `systemctl show` | Reflects the intended values for the process/service | ☐ |
 | 5 | Screenshots | Attached at their respective placeholders as evidence | ☐ |
 
-## 8. Rollback Procedure
+## 7. Rollback Procedure
 
 If the configured ulimit values cause unexpected application or system behaviour, revert as follows:
 
@@ -391,7 +370,7 @@ If the configured ulimit values cause unexpected application or system behaviour
 ![rollback confirmation](./screenshots/8.1-rollback-verify.png)
 ```
 
-## 9. Troubleshooting
+## 8. Troubleshooting
 
 | Issue | Possible Cause / Resolution |
 |---|---|
@@ -401,7 +380,7 @@ If the configured ulimit values cause unexpected application or system behaviour
 | Disk shows 100% used but `du` totals do not match | A deleted file may still be held open by a running process. Identify it with `lsof \| grep deleted` and restart the owning process. |
 | `/etc/fstab` entry causes boot failure | Verify UUID/device path with `blkid` and correct the entry, or add the `nofail` option to prevent boot from stalling. |
 
-## 10. FAQs
+## 9. FAQs
 
 | Question | Answer |
 |---|---|
@@ -409,13 +388,13 @@ If the configured ulimit values cause unexpected application or system behaviour
 | Do I need to restart the server after editing `/etc/security/limits.conf`? | No. A fresh login (new shell session) for the affected user is sufficient; a full server restart is not required. |
 | Why does my systemd service still show the old limit after editing `limits.conf`? | systemd-managed processes do not inherit `/etc/security/limits.conf`. Configure limits directly on the service unit as shown in Step 6.3.8. |
 
-## 11. Contact Information
+## 10. Contact Information
 
 | Name | Email address |
 |---|---|
 | `Rahul Parihar` | `rahul.parihar.snaatak@mygurukulam.co` |
 
-## 12. References
+## 11. References
 
 | Links | Description |
 |---|---|
