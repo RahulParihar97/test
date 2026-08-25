@@ -95,10 +95,10 @@ df -hT
 
 The `-h` flag prints sizes in human-readable form (K/M/G) and `-T` additionally shows the filesystem type. Confirm no filesystem is above the agreed threshold (commonly 80–90% used).
 
-```
-[SCREENSHOT: output of `df -hT`]
-![df -hT output](./screenshots/6.1.1-df-hT.png)
-```
+
+<img width="1231" height="542" alt="image" src="https://github.com/user-attachments/assets/ed3a258c-3888-4625-8d49-1d6d6b913256" />
+
+
 
 **Step 5.1.2: Identify directories/files consuming the most disk space**
 
