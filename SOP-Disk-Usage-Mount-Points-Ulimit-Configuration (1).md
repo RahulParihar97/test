@@ -1,6 +1,5 @@
-<p align="left">
-  <img width="480" height="360" alt="image" src="<IMAGE_URL>" />
-</p>
+<img width="1774" height="887" alt="image" src="https://github.com/user-attachments/assets/63f0053b-3942-439d-bdc5-0be2b7bc18e5" />
+
 
 # SOP: Linux | Disk Usage, Mount Points & Ulimit Configuration
 
