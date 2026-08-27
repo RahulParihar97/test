@@ -161,7 +161,8 @@ Confirm no filesystem is above the agreed threshold (commonly 80–90% used).
 <details>
 <summary>📸 <strong>Screenshot - df -hT output</strong></summary>
 
-![df -hT output](./screenshots/6.1-df-hT.png)
+<img width="827" height="342" alt="image" src="https://github.com/user-attachments/assets/3ed5f903-c9b7-4722-93d9-b6d81db13c95" />
+
 
 </details>
 
@@ -178,7 +179,8 @@ This lists the top 15 largest top-level directories, sorted in descending order 
 <details>
 <summary>📸 <strong>Screenshot - du top 15 directories</strong></summary>
 
-![du top directories](./screenshots/6.2-du-top15.png)
+<img width="620" height="352" alt="image" src="https://github.com/user-attachments/assets/f5b823f2-61a6-4785-9d65-2eff75c48e40" />
+
 
 </details>
 
@@ -195,7 +197,8 @@ Replace `/path/to/directory` with the directory identified as high-usage in the 
 <details>
 <summary>📸 <strong>Screenshot - drill-down du output</strong></summary>
 
-![du drill-down output](./screenshots/6.3-du-drilldown.png)
+<img width="690" height="287" alt="image" src="https://github.com/user-attachments/assets/0aa03beb-b902-4e71-9339-c9feeb5c9b81" />
+
 
 </details>
 
@@ -221,7 +224,8 @@ mount | column -t
 <details>
 <summary>📸 <strong>Screenshot - mount output</strong></summary>
 
-![mount output](./screenshots/7.1-mount.png)
+<img width="2276" height="1335" alt="image" src="https://github.com/user-attachments/assets/ea0f81a2-0137-460a-851b-93b8694e77b1" />
+
 
 </details>
 
@@ -238,7 +242,8 @@ findmnt
 <details>
 <summary>📸 <strong>Screenshot - findmnt output</strong></summary>
 
-![findmnt output](./screenshots/7.2-findmnt.png)
+<img width="2061" height="1052" alt="image" src="https://github.com/user-attachments/assets/215d7764-b256-4dee-939e-83400423879b" />
+
 
 </details>
 
@@ -255,7 +260,8 @@ Confirms which physical/virtual disks and partitions map to which mount points a
 <details>
 <summary>📸 <strong>Screenshot - lsblk -f output</strong></summary>
 
-![lsblk -f output](./screenshots/7.3-lsblk.png)
+<img width="1417" height="485" alt="image" src="https://github.com/user-attachments/assets/f0830148-71ab-4a02-9a38-f711bc421a87" />
+
 
 </details>
 
@@ -272,7 +278,8 @@ Confirm that every mount point required to survive a reboot is correctly listed 
 <details>
 <summary>📸 <strong>Screenshot - /etc/fstab contents</strong></summary>
 
-![fstab contents](./screenshots/7.4-fstab.png)
+<img width="770" height="245" alt="image" src="https://github.com/user-attachments/assets/e9d78a54-da84-4cae-b368-34a9a91642e6" />
+
 
 </details>
 
@@ -332,7 +339,8 @@ ulimit -a
 <details>
 <summary>📸 <strong>Screenshot - ulimit -a output</strong></summary>
 
-![ulimit -a output](./screenshots/8.1-ulimit-a.png)
+<img width="597" height="387" alt="image" src="https://github.com/user-attachments/assets/973b0fcf-b63f-4967-8b8c-6047c16328d0" />
+
 
 </details>
 
@@ -348,7 +356,8 @@ ulimit -Hn      # current hard limit for open files
 <details>
 <summary>📸 <strong>Screenshot - soft and hard limit output</strong></summary>
 
-![ulimit soft and hard limits](./screenshots/8.2-ulimit-Sn-Hn.png)
+<img width="267" height="107" alt="image" src="https://github.com/user-attachments/assets/c170f10d-2ee8-450e-a0c5-3761b2930d31" />
+
 
 </details>
 
@@ -365,7 +374,8 @@ This changes the open-files limit only for the current shell session; it does no
 <details>
 <summary>📸 <strong>Screenshot - temporary ulimit applied</strong></summary>
 
-![temporary ulimit applied](./screenshots/8.3-ulimit-temp.png)
+<img width="322" height="52" alt="image" src="https://github.com/user-attachments/assets/417386b4-6d6c-4056-b18a-76cb84e98984" />
+
 
 </details>
 
@@ -397,7 +407,8 @@ appuser        hard     nproc    4096
 <details>
 <summary>📸 <strong>Screenshot - edited limits.conf entries</strong></summary>
 
-![limits.conf entries](./screenshots/8.4-limits-conf.png)
+<img width="740" height="1346" alt="image" src="https://github.com/user-attachments/assets/3700b0ef-2b5c-4019-a501-4e5105d85f1b" />
+
 
 </details>
 
@@ -414,7 +425,8 @@ Confirm the line `session required pam_limits.so` is present. If missing, add it
 <details>
 <summary>📸 <strong>Screenshot - pam_limits.so check</strong></summary>
 
-![pam_limits.so check](./screenshots/8.5-pam-limits.png)
+<img width="635" height="47" alt="image" src="https://github.com/user-attachments/assets/40bdc1f5-1132-4636-a371-e81dc836cc8e" />
+
 
 </details>
 
