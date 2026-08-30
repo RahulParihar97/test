@@ -464,7 +464,8 @@ Replace `<pid>` with the process ID obtained from the `ps` command. This shows t
 <details>
 <summary>📸 <strong>Screenshot - /proc/pid/limits output</strong></summary>
 
-![process limits](./screenshots/8.7-proc-limits.png)
+<img width="1027" height="497" alt="image" src="https://github.com/user-attachments/assets/588f1a2d-13dc-4040-9fd3-f8fdf26eab12" />
+
 
 </details>
 
@@ -492,6 +493,13 @@ sudo systemctl restart <service-name>
 <details>
 <summary>📸 <strong>Screenshot - systemd override and restart</strong></summary>
 
+<img width="600" height="61" alt="image" src="https://github.com/user-attachments/assets/5b934a13-26dc-4df1-8ad4-ac44ef8883e4" />
+
+<img width="1125" height="1221" alt="image" src="https://github.com/user-attachments/assets/255260b1-53c0-46c7-ac98-af197bdfb1d2" />
+
+<img width="657" height="90" alt="image" src="https://github.com/user-attachments/assets/7d35ebf1-d269-4336-9105-476bee96d324" />
+
+
 ![systemd override and restart](./screenshots/8.8-systemd-override.png)
 
 </details>
@@ -507,7 +515,7 @@ systemctl show <service-name> | grep Limit
 <details>
 <summary>📸 <strong>Screenshot - systemd limit verification</strong></summary>
 
-![systemd limit verification](./screenshots/8.9-systemd-verify.png)
+![Uploading image.png…]()
 
 </details>
 
