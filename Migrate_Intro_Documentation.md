@@ -1,4 +1,4 @@
-# Common Stack | Applications | Golang | Migrate Documentation
+# Common Stack | Others | Migrate | Migrate Intro Documentation
 
 ## Author Table
 
