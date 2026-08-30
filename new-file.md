@@ -1,4 +1,3 @@
-```markdown
 # Java and Maven Documentation
 
 ## Author Information
@@ -33,9 +32,8 @@
 8. [Advantages and Disadvantages](#advantages-and-disadvantages)
 9. [Best Practices](#best-practices)
 10. [Conclusion](#conclusion)
-11. [Proof of Concept](#proof-of-concept)
-12. [Contact Information](#contact-information)
-13. [References](#references)
+11. [Contact Information](#contact-information)
+12. [References](#references)
 
 ## Introduction
 
@@ -476,50 +474,6 @@ Build Application
 
 Maven is a suitable choice when a project requires a standard structure, repeatable builds, and centralized dependency management.
 
-## Proof of Concept
-
-### Create a Maven Project
-
-```bash
-mvn archetype:generate \
-  -DgroupId=com.example \
-  -DartifactId=my-java-app \
-  -DarchetypeArtifactId=maven-archetype-quickstart \
-  -DinteractiveMode=false
-```
-
-### Move Into the Project Directory
-
-```bash
-cd my-java-app
-```
-
-### Compile the Project
-
-```bash
-mvn compile
-```
-
-### Run the Tests
-
-```bash
-mvn test
-```
-
-### Package the Application
-
-```bash
-mvn package
-```
-
-### Install the Artifact Locally
-
-```bash
-mvn install
-```
-
-The generated artifact is available inside the `target` directory and is also stored in the local Maven repository after running `mvn install`.
-
 ## Contact Information
 
 | Name | Email |
@@ -533,4 +487,3 @@ The generated artifact is available inside the `target` directory and is also st
 - [Maven Introduction to Repositories](https://maven.apache.org/guides/introduction/introduction-to-repositories.html)
 - [Maven Central Repository](https://central.sonatype.com/)
 - [Oracle Java Documentation](https://docs.oracle.com/en/java/)
-```
