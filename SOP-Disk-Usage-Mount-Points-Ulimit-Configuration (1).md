@@ -497,7 +497,7 @@ sudo systemctl restart <service-name>
 
 <img width="1125" height="1221" alt="image" src="https://github.com/user-attachments/assets/255260b1-53c0-46c7-ac98-af197bdfb1d2" />
 
-<img width="657" height="90" alt="image" src="https://github.com/user-attachments/assets/7d35ebf1-d269-4336-9105-476bee96d324" />
+<img width="722" height="70" alt="image" src="https://github.com/user-attachments/assets/2a0ab969-818e-4190-9c26-84012d234507" />
 
 
 ![systemd override and restart](./screenshots/8.8-systemd-override.png)
