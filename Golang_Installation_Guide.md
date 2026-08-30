@@ -79,7 +79,12 @@ Go to the official downloads page and download the Windows installer package (`.
 <details>
 <summary>Screenshot: Go downloads page</summary>
 
-<img src="<SCREENSHOT_URL_GO_DOWNLOADS_PAGE>" alt="Go downloads page showing the Windows installer link" width="70%" />
+
+<img width="1522" height="1310" alt="image" src="https://github.com/user-attachments/assets/63464441-3824-482f-81e7-f5d6595210c2" />
+
+<img width="1502" height="1192" alt="image" src="https://github.com/user-attachments/assets/5b64b84b-284c-423d-802c-1fd0ddd786aa" />
+
+
 
 </details>
 
@@ -90,7 +95,10 @@ Double-click the downloaded `.msi` file and follow the setup wizard. Accept the 
 <details>
 <summary>Screenshot: Go setup wizard</summary>
 
-<img src="<SCREENSHOT_URL_GO_WINDOWS_INSTALLER>" alt="Go installation wizard on Windows" width="70%" />
+
+<img width="622" height="497" alt="image" src="https://github.com/user-attachments/assets/d65e5cff-faa7-4b46-b8ae-a9223554d466" />
+
+
 
 </details>
 
@@ -105,7 +113,10 @@ If needed, the `PATH` entry can be reviewed manually.
 <details>
 <summary>Screenshot: Environment Variables dialog</summary>
 
-<img src="<SCREENSHOT_URL_WINDOWS_ENV_VARIABLES>" alt="Windows Environment Variables dialog showing the Go path" width="70%" />
+
+
+<img width="722" height="157" alt="image" src="https://github.com/user-attachments/assets/5e62e21f-da49-48ea-90ce-1ca8c4cf46a4" />
+
 
 </details>
 
@@ -140,6 +151,9 @@ Homebrew installs Go and keeps it updated through standard `brew upgrade` comman
 wget https://go.dev/dl/go1.23.0.linux-amd64.tar.gz
 ```
 
+<img width="1210" height="466" alt="image" src="https://github.com/user-attachments/assets/c931c116-a27f-4660-b263-50d93630fe37" />
+
+
 Replace the version number with the latest available release.
 
 ### Step 2: Remove Any Previous Installation
@@ -153,6 +167,9 @@ sudo rm -rf /usr/local/go
 ```bash
 sudo tar -C /usr/local -xzf go1.23.0.linux-amd64.tar.gz
 ```
+
+<img width="892" height="80" alt="image" src="https://github.com/user-attachments/assets/539d6047-597c-4a04-a965-246140e975e8" />
+
 
 This extracts Go into `/usr/local/go`.
 
@@ -169,6 +186,8 @@ Apply the change:
 ```bash
 source ~/.bashrc
 ```
+<img width="671" height="95" alt="image" src="https://github.com/user-attachments/assets/3a35aba7-cc26-49db-a70a-487bf01e8c9c" />
+
 
 ## Verifying the Installation
 
@@ -183,6 +202,9 @@ Expected output:
 ```text
 go version go1.23.0 linux/amd64
 ```
+
+<img width="402" height="92" alt="image" src="https://github.com/user-attachments/assets/cc4dd0a8-7612-4380-b45e-e115be6d0992" />
+
 
 The version number and platform suffix will vary depending on the operating system and installed Go release.
 
