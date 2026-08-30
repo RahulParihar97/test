@@ -9,7 +9,7 @@
 
 | **Author** | **Created On** | **Version** | **Last Updated By** | **Last Edited On** | **L0 Reviewer** | **L1 Reviewer** | **L2 Reviewer** |
 |---|---|---|---|---|---|---|---|
-| Rahul Parihar | 24-08-26 | 1.0 | Rahul Parihar | 25-08-26 | `<Reviewer Name>` | `<Reviewer Name>` | `<Reviewer Name>` |
+| Rahul Parihar | 24-08-26 | 1.0 | Rahul Parihar | 25-08-26 | `Annitha` | `Prashant/Prince` | `Sandeep Rawat / Ravindra` |
 
 ---
 
