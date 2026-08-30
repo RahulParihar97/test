@@ -1,4 +1,4 @@
-# Common Stack | Applications | Golang | Installation Guide Documentation
+# Common Stack | Applications | Golang | Installation Guide
 
 ## Author Table
 
