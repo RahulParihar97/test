@@ -407,7 +407,8 @@ appuser        hard     nproc    4096
 <details>
 <summary>📸 <strong>Screenshot - edited limits.conf entries</strong></summary>
 
-<img width="740" height="1346" alt="image" src="https://github.com/user-attachments/assets/3700b0ef-2b5c-4019-a501-4e5105d85f1b" />
+<img width="855" height="210" alt="Screenshot 2026-08-30 203134" src="https://github.com/user-attachments/assets/d989fb61-ea1f-4258-a700-fbdb33708908" />
+
 
 
 </details>
@@ -425,7 +426,8 @@ Confirm the line `session required pam_limits.so` is present. If missing, add it
 <details>
 <summary>📸 <strong>Screenshot - pam_limits.so check</strong></summary>
 
-<img width="635" height="47" alt="image" src="https://github.com/user-attachments/assets/40bdc1f5-1132-4636-a371-e81dc836cc8e" />
+<img width="917" height="130" alt="image" src="https://github.com/user-attachments/assets/2047d6f3-481a-429b-8b2d-6cdf53984ea7" />
+
 
 
 </details>
@@ -443,7 +445,8 @@ ulimit -a
 <details>
 <summary>📸 <strong>Screenshot - ulimit -a after re-login</strong></summary>
 
-![ulimit -a after relogin](./screenshots/8.6-ulimit-a-relogin.png)
+<img width="1111" height="961" alt="Screenshot 2026-08-30 203206" src="https://github.com/user-attachments/assets/3e7befe4-b02b-4f61-9cdb-cc9f514d04af" />
+
 
 </details>
 
@@ -521,12 +524,6 @@ If the configured ulimit values cause unexpected application or system behaviour
 | 3 | Reload systemd | `sudo systemctl daemon-reload` |
 | 4 | Restart the service | `sudo systemctl restart <service-name>` |
 
-<details>
-<summary>📸 <strong>Screenshot - rollback confirmation</strong></summary>
-
-![rollback confirmation](./screenshots/9.1-rollback-verify.png)
-
-</details>
 
 ---
 
