@@ -95,13 +95,6 @@ The installer adds Go to `PATH` automatically. This can be confirmed manually if
 
 Download and run the `.pkg` installer. It installs Go to `/usr/local/go` and updates the shell path.
 
-<details>
-<summary>Screenshot: macOS installer package</summary>
-
-<img src="<SCREENSHOT_URL_MACOS_INSTALLER>" alt="Go installer package on macOS" width="70%" />
-
-</details>
-
 ### Option 2: Homebrew
 
 ```bash
