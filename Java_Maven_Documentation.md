@@ -9,88 +9,31 @@
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [What Is Java?](#what-is-java)
-3. [Why Is Java Used?](#why-is-java-used)
-4. [What Is Maven?](#what-is-maven)
+2. [What Is Maven?](#what-is-maven)
    - [Why Is Maven Used?](#why-is-maven-used)
    - [Maven Features](#maven-features)
    - [Maven Project Structure](#maven-project-structure)
-   - [Maven Build Lifecycle](#maven-build-lifecycle)
-5. [Maven Repository Workflow](#maven-repository-workflow)
+3. [Maven Build Lifecycle](#maven-build-lifecycle)
+4. [Maven Repository Workflow](#maven-repository-workflow)
    - [Local Repository](#local-repository)
    - [Remote Repository](#remote-repository)
-   - [Local Repository vs Remote Repository](#local-repository-vs-remote-repository)
-6. [Java Build and Dependency Management Tools](#java-build-and-dependency-management-tools)
-7. [Tool Comparison](#tool-comparison)
-8. [Advantages and Disadvantages](#advantages-and-disadvantages)
-9. [Best Practices](#best-practices)
-10. [Conclusion](#conclusion)
-11. [Contact Information](#contact-information)
-12. [References](#references)
+   - [Local vs Remote Repository](#local-vs-remote-repository)
+5. [Java Build and Dependency Management Tools](#java-build-and-dependency-management-tools)
+6. [Advantages and Disadvantages](#advantages-and-disadvantages)
+7. [Best Practices](#best-practices)
+8. [Conclusion](#conclusion)
+9. [Contact Information](#contact-information)
+10. [References](#references)
 
 ## Introduction
 
-Java is a general-purpose, object-oriented programming language used to develop applications, backend services, APIs, and enterprise software.
+Apache Maven is a build automation and dependency management tool commonly used in Java projects.
 
-As a Java project grows, manually managing dependencies, compilation, testing, and packaging becomes difficult. Apache Maven helps automate these activities through a standard project structure and a configuration file named `pom.xml`.
-
-Java provides the programming language, while Maven manages the build process and project dependencies.
-
-## What Is Java?
-
-Java is a high-level, object-oriented programming language designed to run on different operating systems.
-
-Java source code is compiled into bytecode. The Java Virtual Machine (JVM) then executes this bytecode.
-
-### Java Execution Flow
-
-```text
-Java Source Code
-       |
-       v
-    javac
-       |
-       v
- Java Bytecode
-       |
-       v
-      JVM
-       |
-       v
-    Output
-```
-
-### Important Java Components
-
-| Component | Purpose |
-|---|---|
-| JDK | Provides the tools required to develop Java applications |
-| JVM | Executes Java bytecode |
-| JRE | Provides the runtime environment for Java applications |
-| `javac` | Compiles Java source code into bytecode |
-| `java` | Runs Java applications |
-
-## Why Is Java Used?
-
-Java is widely used for application and backend development because it is portable, has a large ecosystem, and provides mature development tools.
-
-| Reason | Description |
-|---|---|
-| Platform independence | Java applications can run on different platforms through a compatible JVM |
-| Object-oriented design | Supports reusable and structured application development |
-| Portability | Java bytecode can run on systems that support the JVM |
-| Large ecosystem | Provides access to many libraries and frameworks |
-| Enterprise support | Commonly used for large-scale business applications |
-| Strong tooling | Provides mature development, testing, and debugging tools |
-| Community support | Has a large developer and open-source community |
+As a project grows, manually managing dependencies, compilation, testing, and packaging becomes hard to maintain. Maven automates this through a standard project structure and a single configuration file, `pom.xml`.
 
 ## What Is Maven?
 
-Apache Maven is a build automation and dependency management tool commonly used for Java projects.
-
-Maven uses a configuration file called `pom.xml`. POM stands for Project Object Model.
-
-The `pom.xml` file contains project information, dependencies, plugins, build settings, packaging details, and other configuration options.
+Maven uses a configuration file called `pom.xml` (Project Object Model). It holds project information, dependencies, plugins, build settings, and packaging details.
 
 ### Example Dependency
 
@@ -102,21 +45,17 @@ The `pom.xml` file contains project information, dependencies, plugins, build se
 </dependency>
 ```
 
-Maven reads the dependency details and downloads the required artifact from the configured repositories.
+Maven reads this entry and downloads the artifact from the configured repositories.
 
 ### Why Is Maven Used?
 
-Without Maven, developers may need to manually manage the following activities:
+Without Maven, these tasks would need to be handled manually:
 
-- Downloading JAR files.
-- Maintaining dependency versions.
-- Configuring the classpath.
-- Compiling source code.
-- Running tests.
-- Packaging applications.
-- Managing dependency relationships.
+- Downloading and tracking dependency versions.
+- Compiling code and managing the classpath.
+- Running tests and packaging the build output.
 
-Maven automates these tasks and provides a consistent build process.
+Maven automates all of this into one consistent process.
 
 ### Maven Features
 
@@ -124,348 +63,134 @@ Maven automates these tasks and provides a consistent build process.
 |---|---|
 | Dependency management | Downloads and manages project dependencies |
 | Build automation | Automates compilation, testing, and packaging |
-| Standard project structure | Provides a consistent layout for Maven projects |
-| POM configuration | Stores project and build configuration in `pom.xml` |
-| Plugins | Adds functionality to the Maven build process |
-| Build lifecycle | Provides predefined phases for building projects |
-| Repository support | Supports local and remote repositories |
-| Transitive dependencies | Automatically resolves dependencies required by other dependencies |
+| Standard structure | Consistent project layout across teams |
+| POM configuration | Central build configuration in `pom.xml` |
+| Plugins | Extend the build process |
+| Build lifecycle | Predefined phases for building projects |
+| Transitive dependencies | Auto-resolves nested dependencies |
 
 ### Maven Project Structure
-
-Maven follows a standard project structure.
 
 ```text
 my-java-project/
 ├── pom.xml
 ├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   └── resources/
-│   └── test/
-│       ├── java/
-│       └── resources/
+│   ├── main/java
+│   ├── main/resources
+│   ├── test/java
+│   └── test/resources
 └── target/
 ```
 
-### Directory Description
-
 | Path | Purpose |
 |---|---|
-| `src/main/java` | Contains application source code |
-| `src/main/resources` | Contains application resources |
-| `src/test/java` | Contains test source code |
-| `src/test/resources` | Contains test resources |
-| `pom.xml` | Contains Maven project configuration |
-| `target/` | Contains generated build output |
+| `src/main/java` | Application source code |
+| `src/test/java` | Test source code |
+| `pom.xml` | Project configuration |
+| `target/` | Build output |
 
-### Maven Build Lifecycle
+## Maven Build Lifecycle
 
-Maven provides predefined build phases. The following phases are commonly used:
+Maven has three built-in lifecycles:
+
+| Lifecycle | Purpose |
+|---|---|
+| clean | Removes files from previous builds |
+| default | Builds and deploys the project |
+| site | Generates project documentation |
+
+The **default** lifecycle runs through the following phases, in order:
 
 ```text
-validate
-   ↓
-compile
-   ↓
-test
-   ↓
-package
-   ↓
-verify
-   ↓
-install
-   ↓
-deploy
+mvn validate
+     |
+     v
+mvn compile
+     |
+     v
+mvn test
+     |
+     v
+mvn package
+     |
+     v
+mvn verify
+     |
+     v
+mvn install
+     |
+     v
+mvn deploy
 ```
-
-| Command | Purpose |
-|---|---|
-| `mvn validate` | Validates the project |
-| `mvn compile` | Compiles the source code |
-| `mvn test` | Runs the tests |
-| `mvn package` | Packages the application |
-| `mvn verify` | Performs verification checks |
-| `mvn install` | Installs the artifact in the local repository |
-| `mvn deploy` | Publishes the artifact to a remote repository |
 
 ## Maven Repository Workflow
 
-A Maven repository stores artifacts used during the build process. These artifacts may include:
+A Maven repository stores build artifacts such as JARs, POM files, and plugins. Maven uses two types: local and remote.
 
-- JAR files.
-- POM files.
-- Maven plugins.
-- Application libraries.
-- Organization-specific artifacts.
+### Combined Workflow
 
-Maven primarily uses two types of repositories:
 
-1. Local repository.
-2. Remote repository.
 
-### Repository Workflow
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/db0c4678-0ad4-45a5-bdfb-1116d6e17bd1" />
 
-```text
-Maven Project
-      |
-      v
-   pom.xml
-      |
-      v
-Maven Build Command
-      |
-      v
-Check Local Repository
-      |
-      +----------------------+
-      |                      |
-    Found                Not found
-      |                      |
-      |                      v
-      |              Check Remote Repository
-      |                      |
-      |                      v
-      |              Download Dependency
-      |                      |
-      |                      v
-      |              Store in Local Repository
-      |                      |
-      +----------------------+
-      |
-      v
-Build Project
-      |
-      v
-Generate Artifact
-      |
-      +------------------+
-      |                  |
-      v                  v
-mvn install         mvn deploy
-      |                  |
-      v                  v
-Local Repository   Remote Repository
-```
+
 
 ### Local Repository
 
-The local repository is a directory stored on the developer's or build machine.
+Directory on the developer or build machine, located at `~/.m2/repository` by default.
 
-Maven uses it to store:
-
-- Downloaded dependencies.
-- Maven plugins.
-- Dependency metadata.
-- Locally installed project artifacts.
-
-#### Default Locations
-
-Linux:
-
-```text
-~/.m2/repository
-```
-
-Windows:
-
-```text
-C:\Users\<username>\.m2\repository
-```
-
-For example, a dependency with the following coordinates:
-
-```text
-groupId    = org.example
-artifactId = example-library
-version    = 1.0.0
-```
-
-may be stored as follows:
-
-```text
-~/.m2/repository/
-└── org/
-    └── example/
-        └── example-library/
-            └── 1.0.0/
-                ├── example-library-1.0.0.jar
-                ├── example-library-1.0.0.pom
-                └── ...
-```
-
-#### Purpose of the Local Repository
-
-- Prevents repeated downloads of the same dependency.
-- Speeds up subsequent builds.
-- Stores locally installed artifacts.
-- Allows Maven to reuse previously downloaded dependencies.
-
-#### `mvn install`
-
-The `mvn install` command builds the project and copies the generated artifact to the local repository.
-
-```bash
-mvn install
-```
-
-```text
-Project
-   |
-   v
-mvn install
-   |
-   v
-target/my-app-1.0.0.jar
-   |
-   v
-~/.m2/repository/
-```
+- Caches downloaded dependencies to avoid re-downloading.
+- Stores artifacts installed via `mvn install`.
 
 ### Remote Repository
 
-A remote repository is hosted on a server and can be accessed by multiple developers or build machines.
-
-It can contain:
-
-- Third-party dependencies.
-- Maven plugins.
-- Application libraries.
-- Organization-specific artifacts.
+Hosted on a server and shared across teams. Populated via `mvn deploy`.
 
 | Repository | Purpose |
 |---|---|
-| Maven Central | Public repository for Java and JVM artifacts |
-| Nexus Repository | Repository manager for private and public artifacts |
-| JFrog Artifactory | Repository manager for storing and distributing artifacts |
+| Maven Central | Public repository for Java artifacts |
+| Nexus | Repository manager for private/public artifacts |
+| JFrog Artifactory | Stores and distributes artifacts |
 
-#### Remote Repository Flow
+### Local vs Remote Repository
 
-```text
-Maven Build
-     |
-     v
-Local Repository
-     |
-     | Dependency not available
-     v
-Remote Repository
-     |
-     v
-Download Artifact
-     |
-     v
-Store in Local Repository
-```
-
-#### `mvn deploy`
-
-The `mvn deploy` command publishes the generated artifact to a configured remote repository.
-
-```bash
-mvn deploy
-```
-
-```text
-Java Project
-     |
-     v
-mvn deploy
-     |
-     v
-Build Artifact
-     |
-     v
-Remote Repository
-```
-
-### Local Repository vs Remote Repository
-
-| Feature | Local Repository | Remote Repository |
+| Feature | Local | Remote |
 |---|---|---|
-| Location | Local developer or build machine | Remote repository server |
-| Scope | Usually used by one machine | Shared by multiple users or systems |
-| Network requirement | Not required for cached artifacts | Usually required |
-| Main purpose | Cache dependencies and store local artifacts | Store and share artifacts |
-| Default location | `~/.m2/repository` | Server-specific location |
-| Examples | `.m2/repository` | Maven Central, Nexus, Artifactory |
+| Location | Build machine | Repository server |
+| Scope | Single machine | Shared across teams |
+| Default location | `~/.m2/repository` | Server-specific |
 | Related command | `mvn install` | `mvn deploy` |
 
 ## Java Build and Dependency Management Tools
 
-| Tool | Description |
-|---|---|
-| Maven | Build automation and dependency management using XML |
-| Gradle | Build automation and dependency management using Groovy or Kotlin DSL |
-| Apache Ant | Java build automation tool |
-| Bazel | Scalable build system designed for large and reproducible builds |
-
-## Tool Comparison
-
-| Tool | Configuration | Ease of use | Best use case |
-|---|---|---|---|
-| Maven | XML | Easy | Standard Java projects |
-| Gradle | Groovy or Kotlin DSL | Moderate | Flexible and complex builds |
-| Ant | XML | Moderate | Legacy Java projects |
-| Bazel | Starlark | Advanced | Large and complex repositories |
+| Tool | Description | Best Use Case |
+|---|---|---|
+| Maven | XML-based build and dependency management | Standard Java projects |
+| Gradle | Groovy/Kotlin DSL, flexible builds | Complex or custom builds |
+| Ant | Basic XML-based build automation | Legacy Java projects |
 
 ## Advantages and Disadvantages
 
 | Advantages | Disadvantages |
 |---|---|
-| Provides a standard project structure | The `pom.xml` file can become lengthy |
-| Automates dependency management | Requires knowledge of the Maven lifecycle |
-| Resolves transitive dependencies | Dependency conflicts can occur |
-| Automates compilation, testing, and packaging | Complex projects may need advanced configuration |
-| Supports local and remote repositories | Has an initial learning curve |
+| Standard project structure | `pom.xml` can grow lengthy |
+| Automated dependency management | Requires learning the lifecycle |
+| Resolves transitive dependencies | Version conflicts can occur |
+| Local and remote repository support | Initial learning curve |
 
 ## Best Practices
 
-- Define explicit versions for dependencies.
-- Add only the libraries required by the application.
+- Pin explicit dependency versions.
 - Remove unused dependencies and plugins.
-- Use dependency management to centralize versions.
-- Use Nexus or Artifactory for organization-specific artifacts.
 - Do not commit the `.m2` directory to source control.
-- Follow the standard Maven project structure.
-- Keep dependencies updated to supported versions.
-- Use a dependency analysis tool to identify unused or conflicting dependencies.
-- Run tests as part of the build process.
+- Use Nexus or Artifactory for shared artifacts.
+- Run tests as part of every build.
 
 ## Conclusion
 
-Java provides a portable platform for application development, while Maven provides a structured way to build and manage Java projects.
+Maven provides a structured, repeatable way to build and manage Java projects, handling dependency resolution, compilation, testing, packaging, and artifact distribution through a single configuration file.
 
-Maven simplifies dependency management, compilation, testing, packaging, plugin management, and artifact distribution.
-
-The local repository stores cached dependencies and locally installed artifacts. The remote repository provides shared access to dependencies and project artifacts.
-
-A typical dependency flow is:
-
-```text
-pom.xml
-   |
-   v
-Maven
-   |
-   v
-Local Repository
-   |
-   | Dependency not available
-   v
-Remote Repository
-   |
-   v
-Download Dependency
-   |
-   v
-Store in Local Repository
-   |
-   v
-Build Application
-```
-
-Maven is a suitable choice when a project requires a standard structure, repeatable builds, and centralized dependency management.
+It is a solid default choice when a project needs a standard structure and centralized dependency management.
 
 ## Contact Information
 
@@ -475,8 +200,9 @@ Maven is a suitable choice when a project requires a standard structure, repeata
 
 ## References
 
-- [Apache Maven Documentation](https://maven.apache.org/guides/)
-- [Maven POM Reference](https://maven.apache.org/pom.html)
-- [Maven Introduction to Repositories](https://maven.apache.org/guides/introduction/introduction-to-repositories.html)
-- [Maven Central Repository](https://central.sonatype.com/)
-- [Oracle Java Documentation](https://docs.oracle.com/en/java/)
+| Reference | Link |
+|---|---|
+| Maven Guides | https://maven.apache.org/guides/ |
+| Maven POM Reference | https://maven.apache.org/pom.html |
+| Introduction to Repositories | https://maven.apache.org/guides/introduction/introduction-to-repositories.html |
+| Maven Central | https://central.sonatype.com/ |
