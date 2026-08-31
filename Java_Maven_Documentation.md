@@ -129,11 +129,7 @@ A Maven repository stores build artifacts such as JARs, POM files, and plugins. 
 
 ### Combined Workflow
 
-
-
 <img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/db0c4678-0ad4-45a5-bdfb-1116d6e17bd1" />
-
-
 
 ### Local Repository
 
@@ -144,7 +140,7 @@ Directory on the developer or build machine, located at `~/.m2/repository` by de
 
 ### Remote Repository
 
-Hosted on a server and shared across teams. Populated via `mvn deploy`.
+Hosted on a server and shared across teams. Populated via `mvn deploy`. A few commonly used remote repositories:
 
 | Repository | Purpose |
 |---|---|
@@ -153,6 +149,8 @@ Hosted on a server and shared across teams. Populated via `mvn deploy`.
 | JFrog Artifactory | Stores and distributes artifacts |
 
 ### Local vs Remote Repository
+
+The two repository types serve different purposes, summarized below:
 
 | Feature | Local | Remote |
 |---|---|---|
@@ -163,6 +161,8 @@ Hosted on a server and shared across teams. Populated via `mvn deploy`.
 
 ## Java Build and Dependency Management Tools
 
+Maven is one of several build tools available for Java. A quick comparison against the other common options:
+
 | Tool | Description | Best Use Case |
 |---|---|---|
 | Maven | XML-based build and dependency management | Standard Java projects |
@@ -170,6 +170,8 @@ Hosted on a server and shared across teams. Populated via `mvn deploy`.
 | Ant | Basic XML-based build automation | Legacy Java projects |
 
 ## Advantages and Disadvantages
+
+Weighing Maven's strengths against its trade-offs:
 
 | Advantages | Disadvantages |
 |---|---|
