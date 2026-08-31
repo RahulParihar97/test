@@ -18,7 +18,7 @@
    - [Local Repository](#local-repository)
    - [Remote Repository](#remote-repository)
    - [Local vs Remote Repository](#local-vs-remote-repository)
-5. [Java Build and Dependency Management Tools](#java-build-and-dependency-management-tools)
+5. [Maven Alternatives](#maven-alternatives)
 6. [Advantages and Disadvantages](#advantages-and-disadvantages)
 7. [Best Practices](#best-practices)
 8. [Conclusion](#conclusion)
@@ -159,7 +159,7 @@ The two repository types serve different purposes, summarized below:
 | Default location | `~/.m2/repository` | Server-specific |
 | Related command | `mvn install` | `mvn deploy` |
 
-## Java Build and Dependency Management Tools
+## Maven Alternatives
 
 Maven is one of several build tools available for Java. A quick comparison against the other common options:
 
