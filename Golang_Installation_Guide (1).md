@@ -65,14 +65,16 @@ Download the `.msi` installer from the official downloads page and run it, accep
 <details>
 <summary>Screenshot: Go downloads page</summary>
 
-<img src="<SCREENSHOT_URL_GO_DOWNLOADS_PAGE>" alt="Go downloads page showing the Windows installer link" width="70%" />
+<img width="1522" height="1310" alt="image" src="https://github.com/user-attachments/assets/63464441-3824-482f-81e7-f5d6595210c2" />
+
+<img width="1502" height="1192" alt="image" src="https://github.com/user-attachments/assets/5b64b84b-284c-423d-802c-1fd0ddd786aa" />
 
 </details>
 
 <details>
 <summary>Screenshot: Go setup wizard</summary>
 
-<img src="<SCREENSHOT_URL_GO_WINDOWS_INSTALLER>" alt="Go installation wizard on Windows" width="70%" />
+<img width="622" height="497" alt="image" src="https://github.com/user-attachments/assets/d65e5cff-faa7-4b46-b8ae-a9223554d466" />
 
 </details>
 
@@ -83,7 +85,7 @@ The installer adds Go to `PATH` automatically. This can be confirmed manually if
 <details>
 <summary>Screenshot: Environment Variables dialog</summary>
 
-<img src="<SCREENSHOT_URL_WINDOWS_ENV_VARIABLES>" alt="Windows Environment Variables dialog showing the Go path" width="70%" />
+<img width="722" height="157" alt="image" src="https://github.com/user-attachments/assets/5e62e21f-da49-48ea-90ce-1ca8c4cf46a4" />
 
 </details>
 
@@ -124,9 +126,8 @@ Replace the version number with the latest release.
 go version
 ```
 
-```text
-go version go1.23.0 linux/amd64
-```
+<img width="402" height="92" alt="image" src="https://github.com/user-attachments/assets/cc4dd0a8-7612-4380-b45e-e115be6d0992" />
+
 
 ## Setting Up the Go Workspace
 
