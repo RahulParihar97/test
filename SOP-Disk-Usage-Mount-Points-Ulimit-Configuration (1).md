@@ -1,154 +1,86 @@
-<img width="1774" height="887" alt="image" src="https://github.com/user-attachments/assets/63f0053b-3942-439d-bdc5-0be2b7bc18e5" />
-
-
 # Common Stack | Operating System | Ubuntu | SOP for Disk & Ulimit
 
----
-
-# Author Table
+## Author Table
 
 | **Author** | **Created On** | **Version** | **Last Updated By** | **Last Edited On** | **L0 Reviewer** | **L1 Reviewer** | **L2 Reviewer** |
 |---|---|---|---|---|---|---|---|
-| Rahul Parihar | 24-08-26 | 1.0 | Rahul Parihar | 25-08-26 | `Annitha` | `Prashant/Prince` | `Sandeep Rawat / Ravindra` |
+| Rahul Parihar | 24-08-26 | 1.0 | Rahul Parihar | 25-08-26 | Annitha | Prashant/Prince | Sandeep Rawat / Ravindra |
 
----
-
-# Table of Contents
+## Table of Contents
 
 1. [Introduction](#1-introduction)
 2. [Purpose](#2-purpose)
 3. [Prerequisites](#3-prerequisites)
-   - [3.1 Access & Permissions](#31-access--permissions)
-   - [3.2 System Requirements](#32-system-requirements)
-   - [3.3 Tools Used](#33-tools-used)
-4. [Roles & Responsibilities](#4-roles--responsibilities)
-5. [Procedure Overview](#5-procedure-overview)
-6. [Check Disk Usage](#6-check-disk-usage)
-7. [Check Mount Points](#7-check-mount-points)
-8. [Configure ulimit Settings for Users and Processes](#8-configure-ulimit-settings-for-users-and-processes)
-9. [Rollback Procedure](#9-rollback-procedure)
-10. [Validation](#10-validation)
-11. [Use Cases](#11-use-cases)
-12. [Troubleshooting](#12-troubleshooting)
-13. [Best Practices](#13-best-practices)
-14. [Conclusion](#14-conclusion)
-15. [Contact Information](#15-contact-information)
-16. [References](#16-references)
+4. [Check Disk Usage](#4-check-disk-usage)
+5. [Check Mount Points](#5-check-mount-points)
+6. [Configure ulimit Settings](#6-configure-ulimit-settings)
+7. [Rollback Procedure](#7-rollback-procedure)
+8. [Validation](#8-validation)
+9. [Use Cases](#9-use-cases)
+10. [Troubleshooting](#10-troubleshooting)
+11. [Best Practices](#11-best-practices)
+12. [Conclusion](#12-conclusion)
+13. [Contact Information](#13-contact-information)
+14. [References](#14-references)
 
----
+## 1. Introduction
 
-# 1. Introduction
+This SOP covers checking disk usage, verifying mount points, and configuring ulimit (resource limit) settings on Linux (Ubuntu/CentOS/RHEL) servers, including configuration, validation, and troubleshooting.
 
-This SOP provides a structured guide to checking **disk usage**, verifying **mount points**, and configuring **ulimit (resource limit)** settings for users and processes on **Linux (Ubuntu/CentOS/RHEL)** servers.
+**Procedure flow:**
 
-It covers the required checks, configuration steps, verification, validation, and troubleshooting needed to keep storage and resource limits healthy and consistent across environments.
+```text
+Check Disk Usage
+       |
+       v
+Check Mount Points
+       |
+       v
+Configure ulimit
+       |
+       v
+    Validate
+       |
+       v
+Rollback (if needed)
+```
 
----
+## 2. Purpose
 
-# 2. Purpose
+This SOP standardizes how to:
 
-The purpose of this SOP is to provide a standardized procedure for:
+- Check disk usage and identify high-usage directories.
+- Verify mount points are active and persisted in `/etc/fstab`.
+- Configure ulimit values at the session, user, process, and systemd levels.
+- Validate the applied limits and roll back safely if needed.
 
-- Checking disk space usage across all mounted filesystems and identifying high-usage directories
-- Verifying that mount points are active and correctly persisted in `/etc/fstab`
-- Reviewing and configuring ulimit values at the session, user, process, and systemd-service level
-- Validating that configured limits are effective and rolling back safely if they are not
-
-These procedures help maintain **system stability, reliability, performance, and operational consistency**.
-
----
-
-# 3. Prerequisites
-
-### 3.1 Access & Permissions
+## 3. Prerequisites
 
 | **Prerequisite** | **Details** |
 |---|---|
-| SSH Access | SSH access to the target server |
-| Privileges | `sudo` / root privileges to view disk, mount, and ulimit configuration files |
-| Edit Access | Access to edit `/etc/security/limits.conf` and related systemd unit files, where applicable |
+| Access | SSH access with `sudo`/root privileges |
+| Edit access | Ability to edit `/etc/security/limits.conf` and systemd unit files |
+| OS | Ubuntu 20.04/22.04 or RHEL/CentOS 7+ |
+| Packages | `coreutils`, `util-linux`, `procps` (usually pre-installed) |
+| Other | Ability to reload `systemd` and re-login as the target user |
 
-### 3.2 System Requirements
-
-| **Requirement** | **Details** |
-|---|---|
-| OS & Access | Ubuntu 20.04/22.04 or RHEL/CentOS 7+ with SSH/terminal access |
-| Required Packages | `coreutils`, `util-linux`, `procps` (pre-installed on most distros) |
-| Permissions | `sudo`/root access where required |
-| Configuration | Ability to reload `systemd` and re-login as the target user |
-
-### 3.3 Tools Used
+### Tools Used
 
 | **Command/File** | **Purpose** |
 |---|---|
-| `df` | Reports disk space usage of mounted filesystems |
-| `du` | Reports disk usage of files/directories |
-| `mount` / `findmnt` | Displays currently mounted filesystems |
-| `lsblk` | Lists block devices and their mount points |
-| `/etc/fstab` | Persistent mount point configuration file |
-| `ulimit` | Shell built-in to view/set per-session resource limits |
-| `/etc/security/limits.conf` | Persistent per-user/group ulimit configuration |
-| `/proc/<pid>/limits` | Shows effective resource limits of a running process |
-| `systemd` (`LimitNOFILE=`, etc.) | Resource limit configuration for services managed by systemd |
+| `df` / `du` | Disk space and directory usage |
+| `mount` / `findmnt` / `/etc/fstab` | View and persist mount points |
+| `ulimit` / `/etc/security/limits.conf` | Session and persistent resource limits |
+| `/proc/<pid>/limits` | Effective limits of a running process |
+| `systemd` (`LimitNOFILE=`, etc.) | Resource limits for systemd services |
 
----
+## 4. Check Disk Usage
 
-# 4. Roles & Responsibilities
-
-| **Role** | **Responsibility** |
-|---|---|
-| System Administrator / DevOps Engineer | Executes the checks, applies ulimit configuration, and attaches screenshots as evidence |
-| Application Owner | Confirms the resource-limit values required for the application/process |
-| Reviewer (L0/L1/L2) | Reviews the completed SOP checklist and evidence before sign-off |
-
----
-
-# 5. Procedure Overview
-
-The diagram below summarizes the end-to-end flow followed in this SOP — from the initial disk check through to validation and, if needed, rollback.
-
-```mermaid
-flowchart TD
-    A[Start SOP] --> B[Check Disk Usage]
-    B --> C{Usage below<br/>agreed threshold?}
-    C -- No --> D[Investigate & clean up<br/>or expand storage]
-    C -- Yes --> E[Check Mount Points]
-    D --> E
-    E --> F{Mount points match<br/>/etc/fstab?}
-    F -- No --> G[Correct fstab entry<br/>and remount]
-    F -- Yes --> H[Configure ulimit for<br/>Users / Processes]
-    G --> H
-    H --> I[Validate Configuration]
-    I --> J{Validation<br/>passed?}
-    J -- No --> K[Rollback Changes]
-    J -- Yes --> L[Attach Screenshots<br/>& Close SOP]
-    K --> H
-```
-
-> [!NOTE]
-> Each decision point above maps to a numbered section below: disk usage (Section 6), mount points (Section 7), ulimit configuration (Section 8), rollback (Section 9), and validation (Section 10).
-
----
-
-# 6. Check Disk Usage
-
-**Quick reference**
-
-| **Step** | **Command** | **Purpose** |
-|---|---|---|
-| 6.1 | `df -hT` | Overall disk space usage of all mounted filesystems |
-| 6.2 | `du -sh /* \| sort -rh \| head -n 15` | Top 15 largest top-level directories |
-| 6.3 | `du -sh /path/* \| sort -rh \| head -n 10` | Drill down into a high-usage directory |
-
-## Step 6.1: Check overall disk space usage of all mounted filesystems
+### Step 4.1: Overall disk space usage
 
 ```bash
 df -hT
 ```
-
-The `-h` flag prints sizes in human-readable form (K/M/G) and `-T` additionally shows the filesystem type.
-
-Expected output:
 
 ```text
 Filesystem     Type  Size  Used Avail Use% Mounted on
@@ -156,238 +88,153 @@ Filesystem     Type  Size  Used Avail Use% Mounted on
 /dev/sdb1      xfs   100G   40G   55G  43% /data
 ```
 
-Confirm no filesystem is above the agreed threshold (commonly 80–90% used).
+Confirm no filesystem is above the agreed threshold (commonly 80-90%).
 
 <details>
-<summary>📸 <strong>Screenshot - df -hT output</strong></summary>
+<summary>Screenshot - df -hT output</summary>
 
 <img width="827" height="342" alt="image" src="https://github.com/user-attachments/assets/3ed5f903-c9b7-4722-93d9-b6d81db13c95" />
 
-
 </details>
 
----
-
-## Step 6.2: Identify directories/files consuming the most disk space
+### Step 4.2: Largest directories
 
 ```bash
 du -sh /* 2>/dev/null | sort -rh | head -n 15
 ```
 
-This lists the top 15 largest top-level directories, sorted in descending order of size.
-
 <details>
-<summary>📸 <strong>Screenshot - du top 15 directories</strong></summary>
+<summary>Screenshot - du top 15 directories</summary>
 
 <img width="620" height="352" alt="image" src="https://github.com/user-attachments/assets/f5b823f2-61a6-4785-9d65-2eff75c48e40" />
 
-
 </details>
 
----
-
-## Step 6.3: Drill down into a specific directory (as required)
+### Step 4.3: Drill down into a high-usage directory
 
 ```bash
 du -sh /path/to/directory/* | sort -rh | head -n 10
 ```
 
-Replace `/path/to/directory` with the directory identified as high-usage in the previous step.
-
 <details>
-<summary>📸 <strong>Screenshot - drill-down du output</strong></summary>
+<summary>Screenshot - drill-down du output</summary>
 
 <img width="690" height="287" alt="image" src="https://github.com/user-attachments/assets/0aa03beb-b902-4e71-9339-c9feeb5c9b81" />
 
-
 </details>
 
----
+## 5. Check Mount Points
 
-# 7. Check Mount Points
-
-**Quick reference**
-
-| **Step** | **Command** | **Purpose** |
-|---|---|---|
-| 7.1 | `mount \| column -t` | List all currently mounted filesystems |
-| 7.2 | `findmnt` | View mount points as a tree/summary |
-| 7.3 | `lsblk -f` | Cross-check block devices and mount points |
-| 7.4 | `cat /etc/fstab` | Verify persistent mount configuration |
-
-## Step 7.1: List all currently mounted filesystems
+### Step 5.1: List currently mounted filesystems
 
 ```bash
 mount | column -t
 ```
 
 <details>
-<summary>📸 <strong>Screenshot - mount output</strong></summary>
+<summary>Screenshot - mount output</summary>
 
 <img width="2276" height="1335" alt="image" src="https://github.com/user-attachments/assets/ea0f81a2-0137-460a-851b-93b8694e77b1" />
 
-
 </details>
 
----
-
-## Step 7.2: View mount points in a tree/summary format
+### Step 5.2: View mount points as a tree
 
 ```bash
 findmnt
 ```
 
-`findmnt` presents mount points in a hierarchical tree, making parent/child relationships easier to review than the raw `mount` output.
-
 <details>
-<summary>📸 <strong>Screenshot - findmnt output</strong></summary>
+<summary>Screenshot - findmnt output</summary>
 
 <img width="2061" height="1052" alt="image" src="https://github.com/user-attachments/assets/215d7764-b256-4dee-939e-83400423879b" />
 
-
 </details>
 
----
-
-## Step 7.3: Cross-check block devices and their mount points
+### Step 5.3: Cross-check block devices
 
 ```bash
 lsblk -f
 ```
 
-Confirms which physical/virtual disks and partitions map to which mount points and filesystem types.
-
 <details>
-<summary>📸 <strong>Screenshot - lsblk -f output</strong></summary>
+<summary>Screenshot - lsblk -f output</summary>
 
 <img width="1417" height="485" alt="image" src="https://github.com/user-attachments/assets/f0830148-71ab-4a02-9a38-f711bc421a87" />
 
-
 </details>
 
----
-
-## Step 7.4: Verify persistent mount configuration
+### Step 5.4: Verify persistent mount configuration
 
 ```bash
 cat /etc/fstab
 ```
 
-Confirm that every mount point required to survive a reboot is correctly listed in `/etc/fstab` with the correct device UUID, mount path, filesystem type, and options.
+Confirm every mount point required to survive a reboot is listed with the correct UUID, path, filesystem type, and options.
 
 <details>
-<summary>📸 <strong>Screenshot - /etc/fstab contents</strong></summary>
+<summary>Screenshot - /etc/fstab contents</summary>
 
 <img width="770" height="245" alt="image" src="https://github.com/user-attachments/assets/e9d78a54-da84-4cae-b368-34a9a91642e6" />
 
-
 </details>
 
----
+## 6. Configure ulimit Settings
 
-# 8. Configure ulimit Settings for Users and Processes
+Resource limits exist at four layers. Configuring one layer while another is actually in effect is a common mistake.
 
-Resource limits exist at four different layers, and it's easy to configure one layer while a different layer is actually in effect. The diagram below shows how they relate before you make any changes.
-
-```mermaid
-flowchart LR
-    subgraph S1["Session Level (Temporary)"]
-        A1["ulimit -n 65536"]
-    end
-    subgraph S2["User Level (Persistent)"]
-        B1["/etc/security/limits.conf"]
-        B2["PAM: pam_limits.so"]
-        B1 --> B2
-    end
-    subgraph S3["Process Level (Runtime, read-only)"]
-        C1["/proc/pid/limits"]
-    end
-    subgraph S4["systemd Service Level"]
-        D1["systemctl edit service"]
-        D2["LimitNOFILE / LimitNPROC"]
-        D1 --> D2
-    end
-
-    A1 -. "applies only to current shell" .-> C1
-    B2 -. "applies after re-login" .-> C1
-    D2 -. "applies to the service, bypasses limits.conf" .-> C1
-```
+| **Layer** | **Configured At** | **Persistence** |
+|---|---|---|
+| Session | `ulimit -n 65536` | Lost on logout |
+| User | `/etc/security/limits.conf` + PAM | Persists across logins |
+| Process (read-only) | `/proc/<pid>/limits` | Reflects whichever layer actually applied |
+| systemd service | `systemctl edit` (`LimitNOFILE=`) | Persists, bypasses `limits.conf` entirely |
 
 > [!NOTE]
-> A `systemd`-managed service **never** reads `/etc/security/limits.conf`. If the process you're tuning is started by `systemd`, configure the limit directly on the service unit (Step 8.8), not via `limits.conf`.
+> A systemd-managed service never reads `/etc/security/limits.conf`. Configure its limits directly on the service unit (Step 6.5).
 
-**Quick reference**
-
-| **Step** | **Command** | **Purpose** |
-|---|---|---|
-| 8.1 | `ulimit -a` | Check current limits for the logged-in shell/user |
-| 8.2 | `ulimit -Sn` / `ulimit -Hn` | Check soft/hard limit for open files |
-| 8.3 | `ulimit -n 65536` | Set a temporary (session-level) ulimit |
-| 8.4 | edit `/etc/security/limits.conf` | Configure a persistent ulimit for a user/group |
-| 8.5 | `grep pam_limits /etc/pam.d/common-session` | Ensure PAM limits module is enabled |
-| 8.6 | `ulimit -a` (after re-login) | Verify persistent ulimit took effect |
-| 8.7 | `cat /proc/<pid>/limits` | Check effective limits of a running process |
-| 8.8 | `systemctl edit <service-name>` | Configure ulimit for a systemd-managed service |
-| 8.9 | `systemctl show <service-name> \| grep Limit` | Verify ulimit configuration for the service |
-
-## Step 8.1: Check current ulimit values for the logged-in shell/user
+### Step 6.1: Check current limits for the shell
 
 ```bash
 ulimit -a
+ulimit -Sn      # soft limit for open files
+ulimit -Hn      # hard limit for open files
 ```
 
 <details>
-<summary>📸 <strong>Screenshot - ulimit -a output</strong></summary>
+<summary>Screenshot - ulimit -a output</summary>
 
 <img width="597" height="387" alt="image" src="https://github.com/user-attachments/assets/973b0fcf-b63f-4967-8b8c-6047c16328d0" />
 
-
 </details>
 
----
-
-## Step 8.2: Check the hard limit for a specific resource (e.g., open files)
-
-```bash
-ulimit -Sn      # current soft limit for open files
-ulimit -Hn      # current hard limit for open files
-```
-
 <details>
-<summary>📸 <strong>Screenshot - soft and hard limit output</strong></summary>
+<summary>Screenshot - soft and hard limit output</summary>
 
 <img width="267" height="107" alt="image" src="https://github.com/user-attachments/assets/c170f10d-2ee8-450e-a0c5-3761b2930d31" />
 
-
 </details>
 
----
-
-## Step 8.3: Set a temporary (session-level) ulimit
+### Step 6.2: Set a temporary (session-level) limit
 
 ```bash
 ulimit -n 65536
 ```
 
-This changes the open-files limit only for the current shell session; it does not persist after logout or reboot. Use this to validate a value before making it permanent.
+This applies only to the current shell and does not persist after logout. Use it to test a value before making it permanent.
 
 <details>
-<summary>📸 <strong>Screenshot - temporary ulimit applied</strong></summary>
+<summary>Screenshot - temporary ulimit applied</summary>
 
 <img width="322" height="52" alt="image" src="https://github.com/user-attachments/assets/417386b4-6d6c-4056-b18a-76cb84e98984" />
 
-
 </details>
 
----
-
-## Step 8.4: Configure a persistent ulimit for a specific user or group
+### Step 6.3: Set a persistent limit for a user or group
 
 ```bash
 sudo vi /etc/security/limits.conf
 ```
-
-### Configuration
 
 ```text
 #<domain>      <type>   <item>   <value>
@@ -400,84 +247,66 @@ appuser        hard     nproc    4096
 | **Field** | **Meaning** |
 |---|---|
 | `<domain>` | Username, `@groupname`, or `*` for all users |
-| `<type>` | `soft` (adjustable up to hard limit) or `hard` (ceiling, root-only) |
-| `<item>` | Resource name, e.g. `nofile` (open files), `nproc` (processes) |
-| `<value>` | Numeric limit, or `unlimited` |
+| `<type>` | `soft` (adjustable) or `hard` (ceiling, root-only) |
+| `<item>` | Resource name, e.g. `nofile`, `nproc` |
+| `<value>` | Numeric limit or `unlimited` |
 
 <details>
-<summary>📸 <strong>Screenshot - edited limits.conf entries</strong></summary>
+<summary>Screenshot - edited limits.conf entries</summary>
 
 <img width="855" height="210" alt="Screenshot 2026-08-30 203134" src="https://github.com/user-attachments/assets/d989fb61-ea1f-4258-a700-fbdb33708908" />
 
-
-
 </details>
 
----
-
-## Step 8.5: Ensure the PAM limits module is enabled
+Confirm the PAM limits module is enabled, or the entries above will be silently ignored:
 
 ```bash
 cat /etc/pam.d/common-session | grep pam_limits
 ```
 
-Confirm the line `session required pam_limits.so` is present. If missing, add it and save the file. Without this, `limits.conf` entries are silently ignored.
+The line `session required pam_limits.so` must be present.
 
 <details>
-<summary>📸 <strong>Screenshot - pam_limits.so check</strong></summary>
+<summary>Screenshot - pam_limits.so check</summary>
 
 <img width="917" height="130" alt="image" src="https://github.com/user-attachments/assets/2047d6f3-481a-429b-8b2d-6cdf53984ea7" />
 
-
-
 </details>
 
----
-
-## Step 8.6: Re-login and verify the persistent ulimit took effect
+Re-login as the target user and confirm the value took effect:
 
 ```bash
-exit
-# log back in as the target user, then run:
 ulimit -a
 ```
 
 <details>
-<summary>📸 <strong>Screenshot - ulimit -a after re-login</strong></summary>
+<summary>Screenshot - ulimit -a after re-login</summary>
 
 <img width="1111" height="961" alt="Screenshot 2026-08-30 203206" src="https://github.com/user-attachments/assets/3e7befe4-b02b-4f61-9cdb-cc9f514d04af" />
 
-
 </details>
 
----
-
-## Step 8.7: Check effective limits of a running process
+### Step 6.4: Check effective limits of a running process
 
 ```bash
 ps -ef | grep <process-name>
 cat /proc/<pid>/limits
 ```
 
-Replace `<pid>` with the process ID obtained from the `ps` command. This shows the actual soft/hard limits the running process is operating under — the only source of truth for "what limit is this process really under right now."
+This is the source of truth for what limit a running process is actually under, regardless of what was configured elsewhere.
 
 <details>
-<summary>📸 <strong>Screenshot - /proc/pid/limits output</strong></summary>
+<summary>Screenshot - /proc/pid/limits output</summary>
 
 <img width="1027" height="497" alt="image" src="https://github.com/user-attachments/assets/588f1a2d-13dc-4040-9fd3-f8fdf26eab12" />
 
-
 </details>
 
----
-
-## Step 8.8: Configure ulimit for a systemd-managed service (if applicable)
+### Step 6.5: Configure ulimit for a systemd-managed service
 
 ```bash
 sudo systemctl edit <service-name>
 ```
-
-### Configuration
 
 ```text
 [Service]
@@ -491,7 +320,7 @@ sudo systemctl restart <service-name>
 ```
 
 <details>
-<summary>📸 <strong>Screenshot - systemd override and restart</strong></summary>
+<summary>Screenshot - systemd override and restart</summary>
 
 <img width="600" height="61" alt="image" src="https://github.com/user-attachments/assets/5b934a13-26dc-4df1-8ad4-ac44ef8883e4" />
 
@@ -499,139 +328,88 @@ sudo systemctl restart <service-name>
 
 <img width="722" height="70" alt="image" src="https://github.com/user-attachments/assets/2a0ab969-818e-4190-9c26-84012d234507" />
 
-
-![systemd override and restart](./screenshots/8.8-systemd-override.png)
-
 </details>
 
----
-
-## Step 8.9: Verify the ulimit configuration for the systemd service
+Verify the applied service limits:
 
 ```bash
 systemctl show <service-name> | grep Limit
 ```
 
 <details>
-<summary>📸 <strong>Screenshot - systemd limit verification</strong></summary>
+<summary>Screenshot - systemd limit verification</summary>
 
-![Uploading image.png…]()
+<img src="<SCREENSHOT_URL_SYSTEMD_LIMIT_VERIFICATION>" alt="systemctl show output confirming service limits" width="70%" />
 
 </details>
 
----
+## 7. Rollback Procedure
 
-# 9. Rollback Procedure
+| **Step** | **Action** |
+|---|---|
+| 1 | Remove/comment the added entries in `/etc/security/limits.conf`, then ask the user to re-login |
+| 2 | `sudo systemctl revert <service-name>` |
+| 3 | `sudo systemctl daemon-reload` |
+| 4 | `sudo systemctl restart <service-name>` |
 
-If the configured ulimit values cause unexpected application or system behaviour, revert as follows:
-
-| **Step** | **Action** | **Command** |
-|---|---|---|
-| 1 | Revert user-level change | Remove/comment out the added entries in `/etc/security/limits.conf`, then ask the user to re-login |
-| 2 | Revert systemd-level change | `sudo systemctl revert <service-name>` |
-| 3 | Reload systemd | `sudo systemctl daemon-reload` |
-| 4 | Restart the service | `sudo systemctl restart <service-name>` |
-
-
----
-
-# 10. Validation
-
-### Validate Disk Usage
+## 8. Validation
 
 ```bash
-df -hT
+df -hT                      # Expected: no filesystem above the agreed threshold
+findmnt                     # Expected: all required mount points match /etc/fstab
+ulimit -a                   # Expected: configured limits shown for the shell
+cat /proc/<pid>/limits      # Expected: configured limits shown for the process/service
 ```
-
-**Expected:** No filesystem above the agreed threshold (e.g. < 80–90% used).
-
-### Validate Mount Points
-
-```bash
-findmnt
-```
-
-**Expected:** Every mount point required by the application is listed and matches `/etc/fstab`.
-
-### Validate ulimit
-
-```bash
-ulimit -a
-cat /proc/<pid>/limits
-```
-
-**Expected:** Configured soft/hard values are reflected both in the shell and for the running process/service.
-
-### Final Validation Checklist
 
 | **Validation** | **Expected Result** |
 |---|---|
-| Disk usage on all mounted filesystems | Below agreed threshold (e.g. < 80–90%) |
-| Mount points vs `/etc/fstab` | All expected mount points present and correctly configured |
-| `ulimit -a` for target user | Shows the configured soft/hard limits |
-| `/proc/<pid>/limits` or `systemctl show` | Reflects the intended values for the process/service |
-| Screenshots | Attached at their respective placeholders as evidence |
+| Disk usage | Below agreed threshold (e.g. < 80-90%) |
+| Mount points | All expected entries present and match `/etc/fstab` |
+| ulimit (shell) | `ulimit -a` shows the configured values |
+| ulimit (process/service) | `/proc/<pid>/limits` or `systemctl show` reflects the intended values |
 
----
+## 9. Use Cases
 
-# 11. Use Cases
-
-| **Scenario** | **Commands / Actions** |
+| **Scenario** | **Action** |
 |---|---|
-| Application logs "too many open files" | Check `/proc/<pid>/limits` (Step 8.7), then raise `nofile` in `limits.conf` (Step 8.4) or the systemd unit (Step 8.8) |
-| Disk nearing capacity before a release | Run Step 6.1–6.3 to locate large directories, clean up or expand storage, then re-validate |
-| New mount added for application data | Add entry to `/etc/fstab`, run `mount -a`, then re-run Steps 7.1–7.4 to confirm |
-| Service restarts intermittently under load | Check `nproc`/`nofile` limits for the service via Step 8.9 and raise via Step 8.8 if limits are being hit |
+| "Too many open files" error | Check `/proc/<pid>/limits` (6.4), raise `nofile` via 6.3 or 6.5 |
+| Disk nearing capacity | Run Section 4 to locate large directories, clean up, and re-validate |
+| New mount added | Add to `/etc/fstab`, run `mount -a`, re-run Section 5 |
+| Service restarts under load | Check limits via 6.5, raise if being hit |
 
----
+## 10. Troubleshooting
 
-# 12. Troubleshooting
-
-| **Issue** | **Cause** | **Solution** |
-|---|---|---|
-| `ulimit -n` change does not persist after logout | Value was set only at shell level (temporary) | Configure it in `/etc/security/limits.conf` and confirm `pam_limits.so` is enabled |
-| Changes in `limits.conf` have no effect on a systemd service | systemd services do not read `limits.conf` | Configure `Limit*` directives in the service unit via `systemctl edit` instead |
-| "Operation not permitted" when raising the hard limit | Only root can raise a hard limit | Re-attempt as root/sudo, or ask an administrator to update `limits.conf` |
-| Disk shows 100% used but `du` totals do not match | A deleted file may still be held open by a running process | Identify it with `lsof \| grep deleted` and restart the owning process |
-| `/etc/fstab` entry causes boot failure | Incorrect UUID/device path | Verify with `blkid` and correct the entry, or add `nofail` to prevent boot from stalling |
-
----
-
-# 13. Best Practices
-
-| **Best Practice** | **Description** |
+| **Issue** | **Solution** |
 |---|---|
-| Monitor proactively | Schedule periodic `df -hT` checks (e.g. via cron/monitoring tool) with alerting before the threshold is breached |
-| Set limits at the right layer | Use `limits.conf` for interactive/login users and systemd `Limit*` directives for services — never mix the two for the same process |
-| Keep hard limits sensible | Set hard limits only as high as genuinely needed; overly high hard limits reduce the safety net a limit is meant to provide |
-| Document every change | Record the value changed, the reason, and the screenshot evidence for every ulimit or fstab modification |
-| Validate after every reboot | Re-run Section 10 validation after any reboot or service restart, since some changes only take effect on re-login/restart |
+| ulimit change doesn't persist | Set it in `limits.conf`, not just the shell, and confirm `pam_limits.so` is enabled |
+| `limits.conf` has no effect on a systemd service | Configure `Limit*` directives on the service unit instead |
+| "Operation not permitted" raising a hard limit | Only root can raise a hard limit |
+| Disk shows 100% but `du` totals don't match | A deleted file may still be held open; check with `lsof \| grep deleted` |
+| `/etc/fstab` entry causes boot failure | Verify with `blkid`, or add `nofail` to prevent boot from stalling |
 
----
+## 11. Best Practices
 
-# 14. Conclusion
+- Schedule periodic `df -hT` checks with alerting before the threshold is breached.
+- Use `limits.conf` for interactive users and systemd `Limit*` directives for services, never both for the same process.
+- Keep hard limits only as high as genuinely needed.
+- Document the value, reason, and evidence for every change.
+- Re-run Section 8 validation after any reboot or service restart.
 
-This SOP provides a standardized approach to checking disk usage, verifying mount points, and configuring ulimit settings on Linux servers.
+## 12. Conclusion
 
-Following these procedures helps administrators maintain **reliability, performance, and operational stability**, while providing a consistent, evidence-backed approach to configuration, validation, and troubleshooting.
+This SOP standardizes checking disk usage, verifying mount points, and configuring ulimit settings on Linux servers, helping keep systems reliable and changes evidence-backed.
 
----
-
-# 15. Contact Information
+## 13. Contact Information
 
 | **Name** | **Email** |
 |---|---|
 | Rahul Parihar | [rahul.parihar.snaatak@mygurukulam.co](mailto:rahul.parihar.snaatak@mygurukulam.co) |
 
----
-
-# 16. References
+## 14. References
 
 | **Topic** | **Description** |
 |---|---|
 | [df man page](https://man7.org/linux/man-pages/man1/df.1.html) | `df` command reference |
 | [du man page](https://man7.org/linux/man-pages/man1/du.1.html) | `du` command reference |
 | [limits.conf man page](https://man7.org/linux/man-pages/man5/limits.conf.5.html) | `limits.conf` configuration reference |
-| [systemd.exec man page](https://www.freedesktop.org/software/systemd/man/systemd.exec.html) | systemd resource-limit directives (`LimitNOFILE`, etc.) |
-| [Application Template](https://github.com/OT-MICROSERVICES/documentation-template/wiki/Application-Template) | Documentation format/index followed for this SOP |
-| [Software Template](https://github.com/OT-MICROSERVICES/documentation-template/wiki/Software-Template) | Documentation format/index followed for this SOP |
+| [systemd.exec man page](https://www.freedesktop.org/software/systemd/man/systemd.exec.html) | systemd resource-limit directives |
